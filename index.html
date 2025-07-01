@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chronic</title>
+  <link rel="icon" href="et.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Css -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: url('fundos.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #000000d8;
+      padding: 10px 20px;
+    }
+
+    #menu {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 90px;
+    }
+
+    #menu-toggle {
+      font-size: 26px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    #menu-opcoes {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 20px;
+      background: #111111;
+      border: 1px solid #333;
+      border-radius: 5px;
+      padding: 10px 0;
+      z-index: 1000;
+      width: 180px;
+    }
+
+    #menu-opcoes a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      font-weight: bold;
+    }
+
+    #menu-opcoes a:hover {
+      background: #cc0000;
+    }
+
+    #btn-carrinho {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .banner {
+      background: url('banner.jpg') no-repeat center center/cover;
+      text-align: center;
+      padding: 120px 20px 60px;
+      border-radius: 10px;
+    }
+
+    .banner h1 {
+      background: rgba(0, 0, 0, 0);
+      display: inline-block;
+      padding: 20px;
+      font-size: 2rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 20px;
+      justify-items: center;
+    }
+
+    .card {
+      background: #22222200;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 8px #000;
+      transition: transform 0.3s;
+      width: 100%;
+      max-width: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .img-container {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s ease;
+    }
+
+    .img-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+    }
+
+    .img-container:hover .img-front {
+      opacity: 0;
+    }
+
+    .img-container:hover .img-back {
+      opacity: 1;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin: 10px 0 4px;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      margin: 0 0 10px;
+    }
+
+    .card button {
+      background: red;
+      color: black;
+      border: none;
+      padding: 10px;
+      width: 90%;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-bottom: 12px;
+      border-radius: 5px;
+    }
+
+    .card button:hover {
+      background: #cc0000;
+    }
+
+    section {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.6));
+      padding: 40px 20px;
+      border-radius: 10px;
+      margin: 40px 20px;
+      text-align: center;
+    }
+
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    /* Carrinho lateral */
+    #sidebar-carrinho {
+      position: fixed;
+      right: -400px;
+      top: 0;
+      width: 350px;
+      height: 100%;
+      background: #111;
+      transition: right 0.3s ease;
+      z-index: 2000;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #sidebar-carrinho.show {
+      right: 0;
+    }
+
+    #sidebar-carrinho button#fechar-carrinho {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      align-self: flex-end;
+    }
+
+    #itens-carrinho {
+      flex-grow: 1;
+      overflow-y: auto;
+      margin: 15px 0;
+      border-top: 1px solid #333;
+      border-bottom: 1px solid #333;
+      padding: 10px 0;
+    }
+
+    #itens-carrinho .item-carrinho {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #333;
+      font-size: 0.9rem;
+    }
+
+    #total {
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    #finalizar-compra {
+      background: #cc0000;
+      border: none;
+      color: black;
+      padding: 12px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    #finalizar-compra:hover {
+      background: rgba(204, 0, 0, 0.267);
+    }
+
+    #overlay-carrinho {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      z-index: 1500;
+    }
+  </style>
+</head>
+<body>
+<!-- Menu -->
+<header>
+  <div id="menu">
+    <div class="logo"><img src="logo.png" alt="Urban Style" /></div>
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <button id="menu-toggle"><i class="fas fa-ellipsis-v"></i></button>
+      <button id="btn-carrinho"><i class="fas fa-shopping-cart"></i></button>
+    </div>
+  </div>
+  <div id="menu-opcoes">
+    <a href="#">Início</a>
+    <a href="#produtos">Produtos</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+  </div>
+</header>
+<!-- Divs de Imagens -->
+<main class="container">
+  <section class="banner">
+    <h1>Nova Coleção Street 2025 Já Disponível</h1>
+  </section>
+
+  <section class="produtos" id="produtos">
+    <h2>Produtos em Destaque</h2>
+    <div class="cards">
+      <div class="card">
+  <div class="img-container">
+    <img src="camisa01.jpg" class="img-front">
+    <img src="camisa1.jpg" class="img-back">
+  </div>
+  <h3>Camisa Chronic 4123</h3>
+  <p>R$ 96,00</p>
+  <button class="btn-comprar" data-nome="Camiseta Chronic 4360" data-preco="89.90">Comprar</button>
+</div>
+
+<div class="card">
+  <div class="img-container">
+    <img src="camisa02.jpg" class="img-front">
+    <img src="camisa2.jpg" class="img-back">
+  </div>
+  <h3>Camisa Plus Size</h3>
+  <p>R$ 79,90</p>
+  <button class="btn-comprar" data-nome="Camiseta Chronic SP011" data-preco="94.90">Comprar</button>
+</div>
+
+<div class="card">
+  <div class="img-container">
+    <img src="camisa03.jpg" class="img-front">
+    <img src="camisa3.jpg" class="img-back">
+  </div>
+  <h3>Camisa Streewear</h3>
+  <p>R$ 91,00</p>
+  <button class="btn-comprar" data-nome="Camiseta Chronic Preta 4344" data-preco="79.90">Comprar</button>
+</div>
+
+ <div class="card">
+  <div class="img-container">
+    <img src="camisa04.jpg" class="img-front">
+    <img src="camisa4.jpg" class="img-back">
+  </div>
+  <h3>Camisa Big</h3>
+  <p>R$ 75,00</p>
+  <button class="btn-comprar" data-nome="Camiseta Chronic NY 4321" data-preco="105.00">Comprar</button>
+</div>
+
+<div class="card">
+  <div class="img-container">
+    <img src="casaco1.jpg" class="img-front">
+    <img src="casaco01.jpg" class="img-back">
+  </div>
+  <h3>Jaqueta Puffer Chronic Gris 001</h3>
+  <p>R$ 360,00</p>
+  <button class="btn-comprar" data-nome="Camiseta Chronic NY 4321" data-preco="105.00">Comprar</button>
+</div>
+
+<div class="card">
+  <div class="img-container">
+    <img src="casaco2.jpg" class="img-front">
+    <img src="casaco02.jpg" class="img-back">
+  </div>
+  <h3>Moletom Chronic 2021/032v3</h3>
+  <p>R$ 82,00</p>
+  <button class="btn-comprar" data-nome="Camiseta Chronic Gold 4333" data-preco="120.00">Comprar</button>
+</div>
+
+<div class="card">
+  <div class="img-container">
+    <img src="blusamoletom01.jpg" class="img-front">
+    <img src="blusamoletom1.jpg" class="img-back">
+  </div>
+  <h3>Blusa Moletom </h3>
+  <p>R$ 194,90</p>
+  <button class="btn-comprar" data-nome="Camiseta Chronic Flame 4351" data-preco="109.90">Comprar</button>
+</div>
+
+<div class="card">
+  <div class="img-container">
+    <img src="blusatom01.jpg" class="img-front">
+    <img src="blusatom1.jpg" class="img-back">
+  </div>
+  <h3>Blusa Moletom 001v2</h3>
+  <p>R$ 153,00</p>
+  <button class="btn-comprar" data-nome="Camiseta Chronic Ice 4359" data-preco="84.00">Comprar</button>
+</div>
+
+<div class="card">
+  <div class="img-container">
+    <img src="calca.jpg" class="img-front">
+    <img src="calca1.jpg" class="img-back">
+  </div>
+  <h3>Calça Moletom Chronic Black 003V2</h3>
+  <p>R$ 182,00</p>
+  <button class="btn-comprar" data-nome="Calça Moletom Chronic Black 003V2" data-preco="182.00">Comprar</button>
+</div>
+
+<div class="card">
+  <div class="img-container">
+    <img src="calca2.jpg" class="img-front">
+    <img src="calca02.jpg" class="img-back">
+  </div>
+  <h3>Calça Moletom Chronic Bluexblack 07V2</h3>
+  <p>R$ 172,90</p>
+  <button class="btn-comprar" data-nome="Calça Moletom Chronic Bluexblack 07V2" data-preco="172,90">Comprar</button>
+</div>
+
+<div class="card">
+  <div class="img-container">
+    <img src="calca3.jpg" class="img-front">
+    <img src="calca03.jpg" class="img-back">
+  </div>
+  <h3>Calça Moletom Chronic Blue 01V2</h3>
+  <p>R$ 172,90</p>
+  <button class="btn-comprar" data-nome="Calça Moletom Chronic Blue 01V2" data-preco="172,90">Comprar</button>
+</div>
+
+<div class="card">
+  <div class="img-container">
+    <img src="shape1.jpg" class="img-front">
+    <img src="shape01.jpg" class="img-back">
+  </div>
+  <h3>Shape Chronic De Longboard 003</h3>
+  <p>R$ 182,40</p>
+  <button class="btn-comprar" data-nome="Shape Chronic De Longboard 003" data-preco="182.40">Comprar</button>
+</div>
+
+      
+ 
+    </div>
+  </section>
+<!-- Sobre Nós -->
+  <section class="sobre" id="sobre">
+    <h2>Sobre Nós</h2>
+    <p>Urban Style nasceu da cultura de rua. Representamos atitude, estilo e liberdade.</p>
+  </section>
+
+  <section class="contato" id="contato">
+    <h2>Fale Conosco</h2>
+    <div class="redes">
+      <a href="https://www.instagram.com/chronic420oficial?igsh=MWxnZGVkd3pnNXd5Nw==" target="_blank">
+  <img src="insta.png" alt="Instagram" style="width:40px;">
+</a>
+ <a href="https://wa.me/SEUNUMERO" target="_blank">
+  <img src="whats.png" alt="WhatsApp" style="width:40px;">
+</a>
+    </div>
+  </section>
+</main>
+<!-- Side Bar do carrinho -->
+<div id="sidebar-carrinho">
+  <button id="fechar-carrinho">&times;</button>
+  <h2>Carrinho de Compras</h2>
+  <div id="itens-carrinho"></div>
+  <div id="total">Total: R$ 0,00</div>
+  <button id="finalizar-compra">Finalizar Compra</button>
+</div>
+
+<div id="overlay-carrinho"></div>
+
+<!-- Carrinho -->
+<div id="sidebar-carrinho">
+  <button id="fechar-carrinho">&times;</button>
+  <h2>Carrinho de Compras</h2>
+  <div id="itens-carrinho"></div>
+  <div id="total">Total: R$ 0,00</div>
+  <button id="finalizar-compra">Finalizar Compra</button>
+</div>
+
+<div id="overlay-carrinho"></div>
+
+<footer>
+  <div class="container">&copy; Chronic-2025</div>
+</footer>
+
+<script>
+  const btnCarrinho = document.getElementById("btn-carrinho");
+  const sidebarCarrinho = document.getElementById("sidebar-carrinho");
+  const overlayCarrinho = document.getElementById("overlay-carrinho");
+  const btnFechar = document.getElementById("fechar-carrinho");
+  const menuToggle = document.getElementById("menu-toggle");
+  const menuOpcoes = document.getElementById("menu-opcoes");
+
+  menuToggle.addEventListener("click", () => {
+    menuOpcoes.style.display = menuOpcoes.style.display === "block" ? "none" : "block";
+  });
+
+  overlayCarrinho.addEventListener("click", () => {
+    sidebarCarrinho.classList.remove("show");
+    overlayCarrinho.style.display = "none";
+  });
+
+  btnCarrinho.addEventListener("click", () => {
+    sidebarCarrinho.classList.add("show");
+    overlayCarrinho.style.display = "block";
+  });
+
+  btnFechar.addEventListener("click", () => {
+    sidebarCarrinho.classList.remove("show");
+    overlayCarrinho.style.display = "none";
+  });
+
+  //CÓDIGO PARA ADICIONAR AO CARRINHO E ABRIR ELE
+  const botoesComprar = document.querySelectorAll('.btn-comprar');
+  const itensCarrinho = document.getElementById('itens-carrinho');
+  const totalCarrinho = document.getElementById('total');
+
+  let carrinho = [];
+
+  botoesComprar.forEach(botao => {
+    botao.addEventListener('click', () => {
+      const nome = botao.getAttribute('data-nome');
+      const preco = parseFloat(botao.getAttribute('data-preco'));
+
+      // Verifica se já existe no carrinho
+      const itemExistente = carrinho.find(item => item.nome === nome);
+      if (itemExistente) {
+        itemExistente.quantidade += 1;
+      } else {
+        carrinho.push({ nome, preco, quantidade: 1 });
+      }
+
+      atualizarCarrinho();
+
+      // Abre o carrinho ao adicionar item
+      sidebarCarrinho.classList.add("show");
+      overlayCarrinho.style.display = "block";
+    });
+  });
+
+  function atualizarCarrinho() {
+    itensCarrinho.innerHTML = '';
+    let total = 0;
+
+    carrinho.forEach(item => {
+      total += item.preco * item.quantidade;
+
+      const itemDiv = document.createElement('div');
+      itemDiv.classList.add('item-carrinho');
+      itemDiv.innerHTML = `
+        <span>${item.nome} x${item.quantidade}</span>
+        <span>R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
+      `;
+      itensCarrinho.appendChild(itemDiv);
+    });
+
+    totalCarrinho.textContent = `Total: R$ ${total.toFixed(2)}`;
+  }
+</script>
+
+
+
+</body>
+</html>
