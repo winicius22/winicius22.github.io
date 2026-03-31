@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>WV Tabacs</title>
+  <link rel="stylesheet" href="style.css">
+      <link rel="icon" href="img/logo.png" type="image/png">
+</head>
+<body>
+
+  <header>
+
+  <div class="logo-container">
+    <img src="img/logo.png" alt="WV Tabacs Logo" class="logo">
+    <h1>WV Tabacs</h1>
+  </div>
+ 
+    <nav>
+      <a href="#inicio">Início</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#Cadastrar">Cadastro</a>
+    </nav>
+  </header>
+
+  <section id="inicio" class="hero">
+  </section>
+
+<section class="cupom">
+  <h2>Ganhe seu cupom de desconto!</h2>
+  <p>Digite seu CPF e receba um cupom exclusivo.</p>
+
+  <form id="formCupom">
+    <input type="text" id="cpf" placeholder="Digite seu CPF" maxlength="14">
+    <button type="submit">Gerar Cupom</button>
+  </form>
+
+  <p id="mensagemCupom"></p>
+</section>
+
+  
+
+<section class="simulador">
+
+ 
+<section id="produtos" class="produtos">
+  <h2>Nossos Produtos</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <img src="img/seda.jpg" alt="Seda">
+      <h3>Seda</h3>
+      <p>R$ 5,00</p>
+      <button>Comprar</button>
+    </div>
+
+
+    <div class="card">
+      <img src="img/narguile.jpg" alt="Narguilé">
+      <h3>Narguilé</h3>
+      <p>R$ 150,00</p>
+      <button>Comprar</button>
+    </div>
+
+    <div class="card">
+      <img src="img/essencia.jpg" alt="Essência">
+      <h3>Essência</h3>
+      <p>R$ 25,00</p>
+      <button>Comprar</button>
+    </div>
+
+    <div class="card">
+      <img src="img/piteira.jpg" alt="piteira">
+      <h3>Piteira de vidro</h3>
+      <p>R$ 20,00</p>
+      <button>Comprar</button>
+    </div>
+
+    <div class="card">
+      <img src="img/pod.jpg" alt="pod">
+      <h3>Black Sheep</h3>
+      <p>R$ 165,00</p>
+      <button>Comprar</button>
+    </div>
+
+<div class="card">
+      <img src="img/vape.jpg" alt="vape">
+      <h3>Vaporesso</h3>
+      <p>R$ 130,00</p>
+      <button>Comprar</button>
+    </div>
+
+<div class="card">
+      <img src="img/cigarro.jpg" alt="cigarro">
+      <h3>Chesterfield</h3>
+      <p>R$ 12,00</p>
+      <button>Comprar</button>
+    </div>
+
+<div class="card">
+      <img src="img/bong.jpg" alt="bong">
+      <h3>Bong</h3>
+      <p>R$ 100,00</p>
+      <button>Comprar</button>
+    </div>
+
+  </div>
+<section class="simulador">
+  <h2>Simular Preço</h2>
+
+  <form id="simuladorForm">
+    <label>Produto:</label>
+    <select id="produto">
+      <option value="5">Seda - R$5</option>
+      <option value="12">Cigarro - R$12</option>
+      <option value="150">Narguilé - R$150</option>
+      <option value="25">Essência - R$25</option>
+      <option value="20">Piteira - R$20</option>
+      <option value="165">Pod - R$165</option>
+      <option value="130">Vape - R$130</option>
+    </select>
+
+    <label>Quantidade:</label>
+    <input type="number" id="quantidade" value="1" min="1">
+
+    <button type="submit">Calcular</button>
+  </form>
+
+  <p id="resultado"></p>
+<section id="Cadastrar" class="Cadastrar">
+  <h2>Cadastro</h2>
+
+  <form id="formulario">
+    <input type="text" id="nome" placeholder="Seu nome">
+    <input type="email" id="email" placeholder="Seu email">
+    <input type="tel" id="celular" placeholder="(51) 99999-9999">
+    <input type="date" id="dataNascimento" name="dataNascimento" required placeholder="Data de Nascimento">
+     <input type="text" id="cpf_cadastro" placeholder="Digite seu CPF" maxlength="14">
+    <textarea id="mensagemInput" placeholder="Observações:"></textarea>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <p id="mensagem"></p>
+</section>
+
+  <footer>
+    <h1>Contato: (51) 984785665</h1>
+    <p>© 2026 WV Tabacs</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
